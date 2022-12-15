@@ -1,0 +1,556 @@
+<script>
+    let dataObj = {};
+    let selectedNet = 'real';
+
+    $(document).ready(function () {
+
+        let $radios = $('input:radio[name=selectNet]');
+        if($radios.is(':checked') === false) {
+            $radios.filter('[value=real]').prop('checked', true);
+        }
+
+        $("#fromDate").datepicker({
+            language: 'ko'
+        });
+        $("#toDate").datepicker({
+            language: 'ko'
+        });
+
+        toastr.options = {
+            "debug": false,
+            "newestOnTop": false,
+            "positionClass": "toast-bottom-right",
+            "closeButton": true,
+            "progressBar": true
+        };
+
+        $("input[name='selectNet']:radio").change(function () {          
+            //console.log("selectedNet:" + this.value);
+            selectedNet = this.value
+        });
+
+        $("#searchBtn").click(function () {
+
+            if ($('#fromDate').val() == '') {
+                toastr.warning('Please select From Date');
+                $('#fromDate').focus();
+            }
+            else if ( $('#toDate').val() == '') {
+                toastr.warning('Please select To Date');
+                $('#toDate').focus();
+            }           
+            else {            
+                dataObj = {};
+
+                dataObj.net = selectedNet
+               // dataObj.usrNo = $('#usrNo').val();
+                dataObj.fromDate = $('#fromDate').val();
+                dataObj.toDate = $('#toDate').val();
+                dataObj.wName = $('#wName').val();
+
+                getUserList(dataObj);
+                getUserTrxIn(dataObj);
+                getUserTrxOut(dataObj);
+                getUserBuyHistory(dataObj);         
+            }
+        });        
+    });
+
+    /**
+     * rendering getUserList for user data
+     * @event getUserList
+     * @param
+     */
+    function getUserList(param) {
+
+        const table = $('#userListTable').DataTable({
+
+            ajax: {
+                url: `${TX_USER_LIST}`,
+                data: param,
+                dataSrc: 'result',
+                // success: function (data) {
+                // 		console.log("getLatestBlocks:" + JSON.stringify(data.result) + "\n");
+                // },
+                complete: function(data) {           
+                    //A function to be called when the request finishes 
+                    // (after success and error callbacks are executed). 
+                    //console.log("result.length:" + data.responseJSON.result.length);
+                    if(data.responseJSON.result.length == 1)
+                        dataObj.usrNo = data.responseJSON.result[0].usr_no
+                    else
+                        dataObj.usrNo = ''
+                  
+                    //console.log("usrNo:"+dataObj.usrNo); 
+                    getUserUnlockHistory(dataObj);
+                },
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                },
+            },
+            //id setting for td cell
+            "createdRow": function (row, data, index) {    //index = row								
+                // $('td', row).eq(0).attr('id', 'blk-' + index + '-blkNo');
+                // $('td', row).eq(0).attr('val', data.blk);
+                // $('td', row).eq(7).attr('title', data.bpNo);
+            },
+            //"data": data.result,
+
+            "columnDefs": [
+                // { targets: [0], className: 'dt-left cursorPointer' },
+                // { targets: [3], className: 'dt-left cursorPointer' },
+                // { targets: [2, 5, 6], className: 'dt-left' },
+                // { targets: [1, 4, 7], className: 'dt-left' },
+                // { targets: [8], visible: false },
+                // {
+                //     'bSortable': false,
+                //     'aTargets': [1]
+                // },
+                // {
+                //     "render": function (data, type, row) {
+                //         return "#" + data
+                //     },
+                //     "targets": 0
+                // }
+            ],
+            "columns": [
+                { "data": "no" },
+                { "data": "amount" },
+                { "data": "weight" },
+                { "data": "taker_fee" },
+                { "data": "i_amount" },
+                { "data": "t_amount" },
+                { "data": "t_cnt" },
+                { "data": "inout" },
+                { "data": "prev_amount" },
+                { "data": "txcount" },
+                { "data": "t_fee" },
+                { "data": "u_tm" },
+                { "data": "v_amount" },
+                { "data": "cma" },
+                { "data": "maker_fee" },
+                { "data": "c_tm" },
+                { "data": "addr" },
+                { "data": "usr_no" }
+            ],
+            "destroy": true,
+            "processing": false,
+            "serverSide": false,
+            "searching": false,
+            "ordering": false,
+            "retrieve": false,
+            "paging": true,
+            "info": true,
+            "stripeClasses": [],
+            "lengthChange": false,
+            //	"lengthMenu": [10, 20, 30, 40, 50],
+            //	"displayLength": 20,
+            "pageLength": 20,
+            "order": [[0, 'desc']]
+        });
+
+        // setInterval(function () {
+        //     // table.fnClearTable();
+        //     // table.fnAddData();		
+        //     // table.fnDraw();
+
+        //     console.log("===============user=reload===============")
+        //     table.ajax.reload();
+        // }, 4000);
+
+        //add cursorPointer on table header
+        // table.tables().header().to$(1).addClass('cursorPointer');
+
+        //when Age header clicked, change it to opposit side  (Age <-> Time)
+        const selectedElements = $("#userTable tr").find("th:eq(1)");
+
+        //move to User Detail page
+        $('#userTable tbody').on('click', 'tr', function () {
+            const data = table.row(this).data();
+        });
+    };
+
+    /**
+     * rendering datatable for tUserTrxIn data
+     * @event getUserTrxIn
+     * @param
+     */
+    function getUserTrxIn(param) {
+
+        const table = $('#userTrxInTable').DataTable({
+
+            ajax: {
+                url: `${TX_USER_TRXIN_LIST}`,
+                data: param,
+                dataSrc: 'result',
+                // success: function (data) {
+                // 		console.log("getLatestBlocks:" + JSON.stringify(data.result) + "\n");
+                // },
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                },
+            },
+            //id setting for td cell
+            "createdRow": function (row, data, index) {    //index = row								
+                // $('td', row).eq(0).attr('id', 'blk-' + index + '-blkNo');
+                // $('td', row).eq(0).attr('val', data.blk);
+                // $('td', row).eq(7).attr('title', data.bpNo);
+            },
+            //"data": data.result,
+
+            "columnDefs": [
+                // { targets: [0], className: 'dt-left cursorPointer' },
+                // { targets: [3], className: 'dt-left cursorPointer' },
+                // { targets: [2, 5, 6], className: 'dt-left' },
+                // { targets: [1, 4, 7], className: 'dt-left' },
+                // { targets: [8], visible: false },
+                // {
+                //     'bSortable': false,
+                //     'aTargets': [1]
+                // },
+                // {
+                //     "render": function (data, type, row) {
+                //         return "#" + data
+                //     },
+                //     "targets": 0
+                // }
+            ],
+            "columns": [
+                { "data": "no" },
+                { "data": "amount" },
+                { "data": "nftids" },
+                { "data": "txid" },
+                { "data": "from" },
+                { "data": "c_tm" },
+                { "data": "to" },
+                { "data": "confirm_num" },
+                { "data": "usr_no" },
+            ],
+            "destroy": true,
+            "processing": false,
+            "serverSide": false,
+            "searching": false,
+            "ordering": false,
+            "retrieve": false,
+            "paging": true,
+            "info": true,
+            "stripeClasses": [],
+            "lengthChange": false,
+            //	"lengthMenu": [10, 20, 30, 40, 50],
+            //	"displayLength": 20,
+            "pageLength": 20,
+            "order": [[0, 'desc']]
+        });
+
+        // setInterval(function () {
+        //     // table.fnClearTable();
+        //     // table.fnAddData();		
+        //     // table.fnDraw();
+
+        //     console.log("===============user=reload===============")
+        //     table.ajax.reload();
+        // }, 4000);
+
+        //add cursorPointer on table header
+        // table.tables().header().to$(1).addClass('cursorPointer');
+
+        //when Age header clicked, change it to opposit side  (Age <-> Time)
+        const selectedElements = $("#userTrxInTable tr").find("th:eq(1)");
+
+        //move to User Detail page
+        $('#userTrxInTable tbody').on('click', 'tr', function () {
+            const data = table.row(this).data();
+        });
+    };
+
+
+    /**
+     * rendering datatable for UserTrxOut data
+     * @event getUserTrxOut
+     * @param
+     */
+    function getUserTrxOut(param) {
+
+        const table = $('#userTrxOutTable').DataTable({
+
+            ajax: {
+                url: `${TX_USER_TRXOUT_LIST}`,
+                data: param,
+                dataSrc: 'result',
+                // success: function (data) {
+                // 		console.log("getLatestBlocks:" + JSON.stringify(data.result) + "\n");
+                // },
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                },
+            },
+            //id setting for td cell
+            "createdRow": function (row, data, index) {    //index = row								
+                // $('td', row).eq(0).attr('id', 'blk-' + index + '-blkNo');
+                // $('td', row).eq(0).attr('val', data.blk);
+                // $('td', row).eq(7).attr('title', data.bpNo);
+            },
+            //"data": data.result,
+
+            "columnDefs": [
+                // { targets: [0], className: 'dt-left cursorPointer' },
+                // { targets: [3], className: 'dt-left cursorPointer' },
+                // { targets: [2, 5, 6], className: 'dt-left' },
+                // { targets: [1, 4, 7], className: 'dt-left' },
+                // { targets: [8], visible: false },
+                // {
+                //     'bSortable': false,
+                //     'aTargets': [1]
+                // },
+                // {
+                //     "render": function (data, type, row) {
+                //         return "#" + data
+                //     },
+                //     "targets": 0
+                // }
+            ],
+            "columns": [
+                { "data": "no" },
+                { "data": "amount" },
+                { "data": "approval" },
+                { "data": "fee" },
+                { "data": "txid" },
+                { "data": "confirm_num" },
+                { "data": "done" },
+                { "data": "external" },
+                { "data": "d_tm" },
+                { "data": "from" },
+                { "data": "c_tm" },
+                { "data": "to" },
+                { "data": "usr_no" }
+            ],
+            "destroy": true,
+            "processing": false,
+            "serverSide": false,
+            "searching": false,
+            "ordering": false,
+            "retrieve": false,
+            "paging": true,
+            "info": true,
+            "stripeClasses": [],
+            "lengthChange": false,
+            //	"lengthMenu": [10, 20, 30, 40, 50],
+            //	"displayLength": 20,
+            "pageLength": 20,
+            "order": [[0, 'desc']]
+        });
+
+        // setInterval(function () {
+        //     // table.fnClearTable();
+        //     // table.fnAddData();		
+        //     // table.fnDraw();
+
+        //     console.log("===============user=reload===============")
+        //     table.ajax.reload();
+        // }, 4000);
+
+        //add cursorPointer on table header
+        // table.tables().header().to$(1).addClass('cursorPointer');
+
+        //when Age header clicked, change it to opposit side  (Age <-> Time)
+        const selectedElements = $("#userTrxOutTable tr").find("th:eq(1)");
+
+        //move to User Detail page
+        $('#userTrxOutTable tbody').on('click', 'tr', function () {
+            const data = table.row(this).data();
+        });
+    };
+
+
+    /**
+     * rendering datatable for user data
+     * @event getUserBuyHistory
+     * @param
+     */
+    function getUserBuyHistory(param) {
+
+        const table = $('#userBuyHistoryTable').DataTable({
+
+            ajax: {
+                url: `${TX_USER_BUYHIST_LIST}`,
+                data: param,
+                dataSrc: 'result',
+                // success: function (data) {
+                // 		console.log("getUserBuyHistory:" + JSON.stringify(data.result) + "\n");
+                // },
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                },
+            },
+            //id setting for td cell
+            "createdRow": function (row, data, index) {    //index = row								
+                // $('td', row).eq(0).attr('id', 'blk-' + index + '-blkNo');
+                // $('td', row).eq(0).attr('val', data.blk);
+                // $('td', row).eq(7).attr('title', data.bpNo);
+            },
+            //"data": data.result,
+
+            "columnDefs": [
+                // { targets: [0], className: 'dt-left cursorPointer' },
+                // { targets: [3], className: 'dt-left cursorPointer' },
+                // { targets: [2, 5, 6], className: 'dt-left' },
+                // { targets: [1, 4, 7], className: 'dt-left' },
+                // { targets: [8], visible: false },
+                // {
+                //     'bSortable': false,
+                //     'aTargets': [1]
+                // },
+                // {
+                //     "render": function (data, type, row) {
+                //         return "#" + data
+                //     },
+                //     "targets": 0
+                // }
+            ],
+            "columns": [
+                { "data": "reward" },
+                { "data": "naddr" },
+                { "data": "startday" },
+                { "data": "nftid" },
+                { "data": "tid" },
+                { "data": "wid" },
+                { "data": "u_tm" },
+                { "data": "price" },
+                { "data": "lastday" },
+                { "data": "d_tm" },
+                { "data": "c_tm" },
+                { "data": "idx" },
+                { "data": "nidx" },
+                { "data": "addr" },
+                { "data": "hash" },
+                { "data": "status" },
+                { "data": "maxp" }
+            ],
+            "destroy": true,
+            "processing": false,
+            "serverSide": false,
+            "searching": false,
+            "ordering": false,
+            "retrieve": false,
+            "paging": true,
+            "info": true,
+            "stripeClasses": [],
+            "lengthChange": false,
+            //	"lengthMenu": [10, 20, 30, 40, 50],
+            //	"displayLength": 20,
+            "pageLength": 20,
+            "order": [[0, 'desc']]
+        });
+
+        // setInterval(function () {
+        //     // table.fnClearTable();
+        //     // table.fnAddData();		
+        //     // table.fnDraw();
+
+        //     console.log("===============user=reload===============")
+        //     table.ajax.reload();
+        // }, 4000);
+
+        //add cursorPointer on table header
+        // table.tables().header().to$(1).addClass('cursorPointer');
+
+        //when Age header clicked, change it to opposit side  (Age <-> Time)
+        const selectedElements = $("#userBuyHistoryTable tr").find("th:eq(1)");
+
+        //move to User Detail page
+        $('#userBuyHistoryTable tbody').on('click', 'tr', function () {
+            const data = table.row(this).data();
+        });
+    };
+
+    /**
+     * rendering datatable for user data
+     * @event getUserUnlockHistory
+     * @param
+     */
+    function getUserUnlockHistory(param) {
+
+        const table = $('#userUnLockHistoryTable').DataTable({
+
+            ajax: {
+                url: `${TX_USER_UNLOCKHIST_LIST}`,
+                data: param,
+                dataSrc: 'result',
+                // success: function (data) {
+                // 		console.log("getUserUnlockHistory:" + JSON.stringify(data.result) + "\n");
+                // },
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                },
+            },
+            //id setting for td cell
+            "createdRow": function (row, data, index) {    //index = row								
+                // $('td', row).eq(0).attr('id', 'blk-' + index + '-blkNo');
+                // $('td', row).eq(0).attr('val', data.blk);
+                // $('td', row).eq(7).attr('title', data.bpNo);
+            },
+            //"data": data.result,
+
+            "columnDefs": [
+                // { targets: [0], className: 'dt-left cursorPointer' },
+                // { targets: [3], className: 'dt-left cursorPointer' },
+                // { targets: [2, 5, 6], className: 'dt-left' },
+                // { targets: [1, 4, 7], className: 'dt-left' },
+                // { targets: [8], visible: false },
+                // {
+                //     'bSortable': false,
+                //     'aTargets': [1]
+                // },
+                // {
+                //     "render": function (data, type, row) {
+                //         return "#" + data
+                //     },
+                //     "targets": 0
+                // }
+            ],
+            "columns": [
+                { "data": "no" },
+                { "data": "amount" },
+                { "data": "weight" },
+                { "data": "taker_fee" },
+                { "data": "i_amount" },
+                { "data": "t_amount" },
+                { "data": "t_cnt" },
+                { "data": "inout" },
+                { "data": "prev_amount" },
+                { "data": "txcount" },
+                { "data": "t_fee" },
+                { "data": "u_tm" },
+                { "data": "v_amount" },
+                { "data": "cma" },
+                { "data": "maker_fee" },
+                { "data": "c_tm" },
+                { "data": "addr" },
+                { "data": "usr_no" }
+            ],
+            "destroy": true,
+            "processing": false,
+            "serverSide": false,
+            "searching": false,
+            "ordering": false,
+            "retrieve": false,
+            "paging": true,
+            "info": true,
+            "stripeClasses": [],
+            "lengthChange": false,
+            //	"lengthMenu": [10, 20, 30, 40, 50],
+            //	"displayLength": 20,
+            "pageLength": 20,
+            "order": [[0, 'desc']]
+        });
+
+        //when Age header clicked, change it to opposit side  (Age <-> Time)
+        const selectedElements = $("#userUnLockHistoryTable tr").find("th:eq(1)");
+
+        //move to User Detail page
+        $('#userUnLockHistoryTable tbody').on('click', 'tr', function () {
+            const data = table.row(this).data();
+        });
+    };
+
+</script>

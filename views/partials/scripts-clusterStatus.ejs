@@ -1,0 +1,255 @@
+<script>
+    const arrApid = ['IS', 'NN01', 'NN02', 'ISAG01', 'ISAG02', 'FBN01', 'FBN02', 'KFK01'];
+    const arrApih = ['IS', 'NN01', 'NN02', 'ISAG01', 'ISAG03', 'FBN01', 'FBN03', 'KFK01'];
+    const arrApi = ['IS', 'NN01', 'NN02', 'NN03', 'NN04', 'NN05', 'NN06', 'NN07',
+        'ISAG01', 'ISAG02', 'ISAG03', 'ISAG04', 'ISAG05', 'ISAG06', 'ISAG07',
+        'FBN01', 'FBN02', 'FBN03', 'FBN04', 'FBN05', 'FBN06', 'FBN07', 'FBN08', 'FBN09', 'FBN10', 'FBN11', 'FBN12', 'FBN13', 'FBN14', 'FBN15', 'FBN16', 'FBN17', 'FBN18', 'FBN19', 'FBN20', 'FBN21',
+        'KFK01', 'KFK02', 'KFK03'];
+
+    let hwInfoFINL;
+    let hwInfoHALLA;
+    let hwInfoDEV;
+    let Obj = {};
+
+    $('#ipAddrFinl').html("IP:203.238.181.162");
+    $('#ipAddrHalla').html("IP:203.238.181.164");
+    $('#ipAddrDev').html("IP:220.86.113.214");
+
+    $(document).ready(function () {
+
+        getClusterStatus();
+
+        setInterval(() => {
+            getClusterStatus();
+        }, 10000 * 60); //10 min
+
+    });
+
+    function getClusterStatus() {
+
+        try {
+            // 노드수가 가장 많은 arrApi 의 길이만큼 for 문을 돌리면서 
+            for (let i = 0; i < arrApi.length; i++) {
+
+                let timer = setTimeout(() => {
+
+                    //dev, halla 데이터가 있는지도 체크해서 있으면 값을 가져와서 뿌려준다.
+                    if(arrApi[i] != undefined)           
+                        hwInfoFINL = getHwInfo("api", arrApi[i]);
+                    if(arrApih[i] != undefined)
+                        hwInfoHALLA = getHwInfo("apih", arrApih[i]);
+                    if(arrApid[i] != undefined)
+                        hwInfoDev = getHwInfo("apid", arrApid[i]);
+
+                    // console.log("hwInfoFINL:" + JSON.stringify(hwInfoFINL))
+                    // console.log("hwInfoHALLA:" + JSON.stringify(hwInfoHALLA))
+                    // console.log("hwInfoDev:" + JSON.stringify(hwInfoDev))
+
+                    if (hwInfoDev != undefined) {
+
+                        setData(hwInfoDev, "DEV", arrApid[i]);
+                    }
+
+                    if (hwInfoHALLA != undefined) {
+
+                        setData(hwInfoHALLA, "HALLA", arrApih[i]);
+                    }
+
+                    if (hwInfoFINL != undefined) {
+
+                        setData(hwInfoFINL, "FINL", arrApi[i]);
+                    }
+
+                }, 1000 * 1); //1 Second    
+
+                //if(!arrApi[i + 1]) clearTimeout(timer);       
+            }
+
+        } catch (error) {
+            console.log("Fail to get result:", error);
+        }
+    }
+
+    // function getFinlInfo() {
+
+
+    //     arrApi.forEach((item, i, arr) => {
+
+    //         //화면이 멈춰버리는 현상 방지 위해 딜레이 줌
+    //         let timerFinl = setTimeout(() => {
+
+    //             // console.log("finl_node:" + arr[i])
+    //             hwInfoFINL = getHwInfo("api", arr[i]);
+
+    //             if (hwInfoFINL) {
+
+    //                 setData(hwInfoFINL, "FINL", arr[i]);
+    //             }
+
+    //         }, 1000 * 1); //1 Second   
+               
+    //     });
+
+    // }
+
+    // function getHallaInfo() {
+
+    //     arrApih.forEach((item, i, arr) => {
+
+    //         let timerHalla = setTimeout(() => {
+
+    //             // console.log("halla_node:" + arr[i])
+    //             hwInfoHALLA = getHwInfo("apih", arr[i]);
+
+    //             if (hwInfoHALLA) {
+
+    //                 setData(hwInfoHALLA, "HALLA", arr[i]);
+    //             }
+
+    //         }, 1000 * 1); //1 Second     
+                
+    //     });
+    // }
+
+    // function getDevInfo() {
+
+    //     arrApid.forEach((item, i, arr) => {
+
+    //         let timerDev = setTimeout(() => {
+
+    //             // console.log("dev_node:" + arr[i])
+    //             hwInfoDEV = getHwInfo("apid", arr[i]);
+
+    //             if (hwInfoDEV) {
+
+    //                 setData(hwInfoDEV, "DEV", arr[i]);
+    //             }
+
+    //         }, 1000 * 1); //1 Second       
+             
+    //     });
+    // }
+
+    // Function to generate data
+    function setUsage(selector, value) {
+        $(`#${selector}`).text(value);
+        if (!isNaN(value)) {
+            let cssCtl = document.getElementById(selector);
+            if (cssCtl != null && cssCtl != undefined) {
+                if (value > 70) {
+                    $(`#${selector}`).addClass('c-danger');
+                    cssCtl.style.cssText = `color: red; font-weight: 500;`
+                } else {
+                    $(`#${selector}`).removeClass('c-danger');
+                    cssCtl.style.cssText = `color: green; font-weight: 500;`
+                }
+            }
+        }
+    }
+
+    function getHwInfo(network, node) {
+        // console.log("network: " + network);
+        // console.log("node: " + node);
+
+        let getData;      
+
+        $.ajax({
+            url: `${TX_CLUSTER_INFO}`,
+            type: 'POST',
+            data: { network: network, node: node },
+            async: false,
+            complete: function (data) {
+                if (data.responseJSON.result) {
+                    //console.log("clusterInfo:" + JSON.stringify(data.responseJSON.result));   
+
+                    getData = data.responseJSON.result;
+                    //  resolve(getData)                    
+
+                    let dateTime = new Date()
+                    const formattedDate = dateTime.toLocaleString("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit",
+                        second: "2-digit"
+                    });
+
+                    let net
+
+                    if (network == 'apid') {
+                        net = 'DEV'
+                    }
+                    else if (network == 'apih') {
+                        net = 'HALLA'
+                    }
+                    else if (network == 'api') {
+                        net = 'FINL'
+                    }
+
+                    $("#" + net + "queryTime" + node).html(formattedDate);
+                }
+                else {
+                    console.log("error:" + JSON.stringify(data));
+                    toastr.warning(data.responseJSON.err);
+                }
+            },
+            error: function (request, status, error) {
+                console.log("request, status, error", request, status, error)
+            }
+        });
+        return getData;      
+    }
+
+    function setData(hwInfo, network, node) {
+        //console.log("id: " + network + 'cpuRatio' + node);
+        Obj.network = network;
+        Obj.node = node;
+
+        //슬랙에 웹훅으로 보내기
+        if (hwInfo.useRate.chkCpu > 70) {
+            Obj.item = "CPU";
+            // sendWarningNotice();
+        }
+
+        if (hwInfo.useRate.chkRam > 70) {
+            Obj.item = "RAM";
+            // sendWarningNotice();
+        }
+
+        if (hwInfo.useRate.chkDisk > 70) {
+            Obj.item = "DISK";
+            //  sendWarningNotice();
+        }
+
+        // check UsageRatio     
+        setUsage(network + 'cpuRatio' + node, Number.parseFloat(hwInfo.useRate.chkCpu).toFixed(2));
+        setUsage(network + 'memRatio' + node, Number.parseFloat(hwInfo.useRate.chkRam).toFixed(2));
+        setUsage(network + 'diskRatio' + node, Number.parseFloat(hwInfo.useRate.chkDisk).toFixed(2));
+    }
+
+    //send Webhook to Slack
+    function sendWarningNotice() {
+
+        let payload = { "text": "Usage Rate of " + Obj.item + " is over 70% in " + Obj.node + " on " + Obj.network + " network." }
+        payload = JSON.stringify(payload);
+
+        $.ajax({
+            url: 'https://hooks.slack.com/services/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',
+            type: "POST",
+            data: payload,
+            success: function () {
+                console.log("success!!!")
+            },
+            complete: function (d) {
+                console.log("sendWarningNotice:" + JSON.stringify(d))
+            },
+            error: function (request, status, error) {
+                console.log("error:" + JSON.stringify(error))
+            },
+        });
+
+    }
+
+
+</script>

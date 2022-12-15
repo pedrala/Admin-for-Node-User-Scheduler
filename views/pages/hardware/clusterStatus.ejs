@@ -1,0 +1,1509 @@
+<!-- Main content-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel m-b-none">
+                <div class="panel-body">
+                    <h3 class="m-b-xs"><i class="pe pe-7s-graph1 text-warning m-r-xs"></i> Cluster Status </h3>
+                    <hr />
+                    <p class="small">
+                        <span class="c-white">Display the Status of Each Cluster</span>
+                        <!-- <div>
+                            <button type="button" id="btn" class="btn btn-default btn-lg">Web Worker Test(multi threading)</button>
+                            <span id="result"></span>
+                        </div> -->
+                    </p>
+                    <hr />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- FINL -->
+        <div class="col-md">
+            <div class="panel panel-filled panel-c-success">
+                <div class="panel-heading"> FINL
+                    <span id="ipAddrFinl" class="rightText">                       
+                    </span>    
+                </div>    
+                <div class="panel-body">                         
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>IS</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeIS" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioIS"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioIS"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioIS"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>NN01</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeNN01" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioNN01"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioNN01"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioNN01"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+                    
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>NN02</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeNN02" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioNN02"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioNN02"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioNN02"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>NN03</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeNN03" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioNN03"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioNN03"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioNN03"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>    
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>NN04</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeNN04" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioNN04"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioNN04"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioNN04"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>                                 
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>NN05</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeNN05" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioNN05"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioNN05"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioNN05"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>NN06</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeNN06" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioNN06"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioNN06"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioNN06"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+                    
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>NN07</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeNN07" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioNN07"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioNN07"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioNN07"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>ISAG01</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeISAG01" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioISAG01"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioISAG01"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioISAG01"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>    
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>ISAG02</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeISAG02" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioISAG02"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioISAG02"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioISAG02"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>     
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>ISAG03</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeISAG03" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioISAG03"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioISAG03"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioISAG03"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>ISAG04</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeISAG04" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioISAG04"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioISAG04"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioISAG04"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+                    
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>ISAG05</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeISAG05" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioISAG05"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioISAG05"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioISAG05"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>ISAG06</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeISAG06" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioISAG06"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioISAG06"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioISAG06"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>    
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>ISAG07</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeISAG07" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioISAG07"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioISAG07"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioISAG07"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>     
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN01</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN01" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN01"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN01"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN01"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN02</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN02" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN02"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN02"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN02"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+                    
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN03</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN03" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN03"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN03"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN03"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN04</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN04" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN04"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN04"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN04"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>    
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN05</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN05" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN05"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN05"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN05"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>     
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN06</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN06" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN06"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN06"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN06"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN07</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN07" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN07"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN07"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN07"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+                    
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN08</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN08" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN08"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN08"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN08"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN09</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN09" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN09"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN09"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN09"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>    
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN10</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN10" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN10"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN10"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN10"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>     
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN11</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN11" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN11"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN11"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN11"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN12</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN12" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN12"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN12"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN12"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+                    
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN13</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN13" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN13"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN13"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN13"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN14</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN14" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN14"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN14"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN14"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>    
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN15</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN15" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN15"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN15"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN15"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>     
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN16</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN16" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN16"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN16"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN16"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN17</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN17" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN17"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN17"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN17"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+                    
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN18</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN18" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN18"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN18"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN18"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN19</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN19" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN19"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN19"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN19"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>    
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN20</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN20" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN20"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN20"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN20"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>     
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN21</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeFBN21" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioFBN21"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioFBN21"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioFBN21"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>KFK01</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeKFK01" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioKFK01"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioKFK01"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioKFK01"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+                    
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>KFK02</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeKFK02" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioKFK02"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioKFK02"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioKFK02"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>KFK03</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="FINLqueryTimeKFK03" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="FINLcpuRatioKFK03"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="FINLmemRatioKFK03"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="FINLdiskRatioKFK03"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>    
+                 
+                </div>
+                <div class="panel-footer"></div>
+            </div>
+
+        </div>
+        <!-- HALLA -->
+        <div class="col-md">
+            <div class="panel panel-filled panel-c-accent">   
+                <div class="panel-heading"> HALLA
+                    <span id="ipAddrHalla" class="rightText">                       
+                    </span>    
+                </div>      
+                <div class="panel-body">
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>IS</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="HALLAqueryTimeIS" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="HALLAcpuRatioIS"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="HALLAmemRatioIS"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="HALLAdiskRatioIS"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>NN01</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="HALLAqueryTimeNN01" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="HALLAcpuRatioNN01"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="HALLAmemRatioNN01"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="HALLAdiskRatioNN01"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>NN02</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="HALLAqueryTimeNN02" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="HALLAcpuRatioNN02"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="HALLAmemRatioNN02"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="HALLAdiskRatioNN02"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>ISAG01</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="HALLAqueryTimeISAG01" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="HALLAcpuRatioISAG01"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="HALLAmemRatioISAG01"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="HALLAdiskRatioISAG01"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>ISAG03</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="HALLAqueryTimeISAG03" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="HALLAcpuRatioISAG03"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="HALLAmemRatioISAG03"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="HALLAdiskRatioISAG03"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN01</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="HALLAqueryTimeFBN01" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="HALLAcpuRatioFBN01"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="HALLAmemRatioFBN01"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="HALLAdiskRatioFBN01"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN03</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="HALLAqueryTimeFBN03" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="HALLAcpuRatioFBN03"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="HALLAmemRatioFBN03"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="HALLAdiskRatioFBN03"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>KFK01</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="HALLAqueryTimeKFK01" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="HALLAcpuRatioKFK01"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="HALLAmemRatioKFK01"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="HALLAdiskRatioKFK01"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+                  
+                </div>
+                <div class="panel-footer"></div>
+            </div>
+
+        </div>
+        <!-- DEV -->
+        <div class="col-md">
+            <div class="panel panel-filled panel-c-info">
+                <div class="panel-heading"> DEV 
+                    <span id="ipAddrDev" class="rightText">                       
+                    </span> 
+                </div>               
+                <div class="panel-body">                    
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>IS</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="DEVqueryTimeIS" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right">
+                                    <!-- <span id="DEVcpuTotalIS"></span>
+                                    <span id="DEVcpuUsedIS"></span> -->
+                                    <span id="DEVcpuRatioIS"></span>    
+                                    <span id="DEVcpuRatioIS"></span> %
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="DEVmemRatioIS"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="DEVdiskRatioIS"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>NN01</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="DEVqueryTimeNN01" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="DEVcpuRatioNN01"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="DEVmemRatioNN01"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="DEVdiskRatioNN01"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>NN02</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="DEVqueryTimeNN02" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="DEVcpuRatioNN02"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="DEVmemRatioNN02"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="DEVdiskRatioNN02"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>ISAG01</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="DEVqueryTimeISAG01" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="DEVcpuRatioISAG01"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="DEVmemRatioISAG01"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="DEVdiskRatioISAG01"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>ISAG02</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="DEVqueryTimeISAG02" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="DEVcpuRatioISAG02"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="DEVmemRatioISAG02"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="DEVdiskRatioISAG02"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN01</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="DEVqueryTimeFBN01" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="DEVcpuRatioFBN01"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="DEVmemRatioFBN01"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="DEVdiskRatioFBN01"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>FBN02</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="DEVqueryTimeFBN02" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="DEVcpuRatioFBN02"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="DEVmemRatioFBN02"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="DEVdiskRatioFBN02"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>         
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>KFK01</th>
+                            <td class="rightText">
+                                Query Time :
+                                <span id="DEVqueryTimeKFK01" ></span>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>        
+                            <tr>
+                                <td>CPU</td>
+                                <td class="text-right"><span id="DEVcpuRatioKFK01"></span> %</td>
+                            </tr>
+                            <tr>
+                                <td>Memory</td>
+                                <td class="text-right"><span id="DEVmemRatioKFK01"></span> %</td>
+                            </tr>   
+                            <tr>
+                                <td>Disk</td>
+                                <td class="text-right"><span id="DEVdiskRatioKFK01"></span> %</td>
+                            </tr>
+                        </tbody>
+                    </table>       
+                  
+                </div>
+                <div class="panel-footer"></div>
+            </div>          
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    .rightText {
+        display: flex; 
+        justify-content: flex-end;
+        color:white;
+        font-size:15px;
+    }
+</style>

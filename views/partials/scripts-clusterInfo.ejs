@@ -1,0 +1,301 @@
+<script>
+    let hwInfo;
+    const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const arrApid = ['IS', 'NN01', 'NN02', 'ISAG01', 'ISAG02', 'FBN01', 'FBN02', 'KFK01'];
+    const arrApih = ['IS', 'NN01', 'NN02', 'ISAG01', 'ISAG03', 'FBN01', 'FBN03', 'KFK01'];
+    const arrApi = ['IS', 'NN01', 'NN02', 'NN03', 'NN04', 'NN05', 'NN06', 'NN07',
+        'ISAG01', 'ISAG02', 'ISAG03', 'ISAG04', 'ISAG05', 'ISAG06', 'ISAG07',
+        'FBN01', 'FBN02', 'FBN03', 'FBN04', 'FBN05', 'FBN06', 'FBN07', 'FBN08', 'FBN09', 'FBN10', 'FBN11', 'FBN12', 'FBN13', 'FBN14', 'FBN15', 'FBN16', 'FBN17', 'FBN18', 'FBN19', 'FBN20', 'FBN21',
+        'KFK01', 'KFK02', 'KFK03'];
+    let getNodeListDom;
+    let selectedNet = 'api';
+
+    $(document).ready(function () {
+        //fix to DEVnet
+        let $radios = $('input:radio[name=selectNet]');
+        if ($radios.is(':checked') === false) {
+            $radios.filter('[value=api]').prop('checked', true);
+        }
+        //Initiate and fill the select options with API servers
+        $('#selectNode').empty();
+        for (let count = 0; count < arrApi.length; count++) {
+            let option = $("<option>" + arrApi[count] + "</option>");
+            $('#selectNode').append(option);
+        }
+
+        //Warning message when there's no select options
+        $('#selectNode').click(function () {
+            if (!selectedNetwork()) {
+                toastr.warning('Select Network First');
+                getNodeListDom = document.getElementById('selectNode');
+                getNodeListDom.innerHTML = ``;
+            }
+        });
+
+        $('#selectNode').on('change', function () {
+
+            let selectedOne = $("#selectNode option:selected").val();
+            //    getNodeListDom.options[getNodeListDom.options.selectedIndex].selected = true;
+            console.log('Selected Node:' + $("#selectNode option:selected").val())
+        });
+
+        //라디오버튼 체인지 이벤트에서 셀렉트박스에 배열을 넣어줘야 에러가 안 남.
+        $("input[name='selectNet']:radio").change(function () {
+            let changedVal = this.value;
+            console.log("changedVal", changedVal)
+            //    $('#selectNode').val('');
+            let changeItem;
+
+            if (changedVal === "api") {
+                changeItem = arrApi;
+            }
+            else if (changedVal === "apih") {
+                changeItem = arrApih;
+            }
+            else if (changedVal === "apid") {
+                changeItem = arrApid;
+            }
+
+            $('#selectNode').empty();
+
+            for (let count = 0; count < changeItem.length; count++) {
+                let option = $("<option>" + changeItem[count] + "</option>");
+                $('#selectNode').append(option);
+            }
+
+        });
+
+        $('#chkNode').click(function () {
+
+            if (selectedNetwork() && selectedNode()) {
+                hwInfo = getHwInfo(selectedNetwork(), selectedNode());
+                //   console.log("hwInfo:" + JSON.stringify(hwInfo))
+                if (hwInfo) {
+                    $("#data_zone").css("display", "block");
+                    setForm(hwInfo);
+                    setData(hwInfo);
+                }
+                else {
+                    $("#data_zone").css("display", "none");
+                    setUsage('response', "FALSE")
+                }
+            }
+        });
+
+        // if(hwInfo){
+        // 	setForm(hwInfo);
+        // 	setData(hwInfo);
+        // 	// setInterval(() => {
+        // 	// 	getHwInfo();
+        // 	// 	setData(hwInfo);
+        // 	// }, 1000 * 10);
+        // }
+
+    });
+
+    // Function to generate data
+    function setUsage(selector, value) {
+        $(`#${selector}`).text(value);
+        if (!isNaN(value)) {
+            let cssCtl = document.getElementById(selector);
+            if (!value) {
+                $(`#${selector}`).addClass('c-danger');
+                cssCtl.style.cssText = `color: red; font-weight: 500;`
+            } else {
+                $(`#${selector}`).removeClass('c-danger');
+                cssCtl.style.cssText = `color: green; font-weight: 500;`
+            }
+        }
+    }
+
+    function selectedNetwork() {
+        let network = $('input[type=radio][name=selectNet]:checked').val();
+        //console.log("network:" + network);
+        return network;
+    }
+
+    function selectedNode() {
+        let node = $("#selectNode :selected").text()
+        //console.log("node:" + node);
+        return node;
+    }
+
+    function confirmNetwork() {
+        console.log("confirmNetwork ~ network", selectedNetwork())
+        console.log("confirmNetwork ~ node", selectedNode())
+    }
+
+    function getHwInfo(network, node) {
+        console.log("network: " + network);
+        console.log("node: " + node);
+
+        let getData;
+
+        $.ajax({
+            url: `${TX_CLUSTER_INFO}`,
+            type: 'POST',
+            data: { network: network, node: node },
+            async: false,
+            // success: function (d) {
+
+            // },
+            complete: function (data) {
+                if (data.responseJSON.result) {
+                    console.log("clusterInfo:" + JSON.stringify(data.responseJSON.result));
+                    getData = data.responseJSON.result;
+                }
+                else {
+                    console.log("error:" + JSON.stringify(data));
+                    toastr.warning(data.responseJSON.err);
+                }
+            },
+            error: function (request, status, error) {
+                console.log("request, status, error", request, status, error)
+            }
+        });
+        return getData;
+    }
+
+    function setForm(hwInfo) {
+
+        if (hwInfo.ip) {
+            let getIpListDom = document.getElementById('ipList');
+            getIpListDom.innerHTML = ``;
+            for (let i = 0; i < hwInfo.ip.length; i++) {
+                getIpListDom.innerHTML += (`<tr><td><span id="ip${i}"></span></td></tr>`);
+            }
+        }
+        if (hwInfo.cpu) {
+            let getCpuListDom = document.getElementById('cpuList');
+            // let getCpuUsageDom = document.getElementById('cpuUsage');
+            getCpuListDom.innerHTML = ``;
+            for (let i = 0; i < hwInfo.cpu.length; i++) {
+                getCpuListDom.innerHTML += (`<tr><td><span id="cpu${i}"></span></td></tr>`);
+            }
+            // getCpuUsageDom.innerHTML = ``;
+        }
+        //size unit : MB -> convert to GB
+        if (hwInfo.memory.size) {
+            let getMemListDom = document.getElementById('memSizeList');
+            getMemListDom.innerHTML = ``;
+            for (let i = 0; i < hwInfo.memory.size.length; i++) {
+                getMemListDom.innerHTML += (`<td><span id="memsize${i}"></span><span> GB</span></td>`);
+            }
+        }
+
+        if (hwInfo.storage.size) {
+            let getStrListDom = document.getElementById('strSizeList');
+            getStrListDom.innerHTML = ``;
+            for (let i = 0; i < hwInfo.storage.size.length; i++) {
+                getStrListDom.innerHTML += (`<td class="text-right"><span id="strsize${i}"></span><span> GB</span></td>`);
+            }
+        }
+
+        if (hwInfo.disk) {
+            let getDiskListDom = document.getElementById('dfList');
+            getDiskListDom.innerHTML = ``;
+            let fileSysArr = [];
+            let splitArr, newArr;
+            for (let i = 1; i < hwInfo.disk.length; i++) {
+                // fileSysArr.push(newArr);
+                getDiskListDom.innerHTML += (
+                    `<tr>
+						<td><span id="fileSys${i}"></span></td>
+						<td><span id="fileSize${i}"></span></td>
+						<td><span id="fileUsed${i}"></span></td>
+						<td><span id="fileAvail${i}"></span></td>
+						<td><span id="fileUse${i}"></span></td>
+						<td><span id="fileMount${i}"></span></td>
+					</tr>`
+                );
+            }
+        }
+    }
+
+    function setData(hwInfo) {
+
+        // WebAPI response
+        setUsage('response', hwInfo.response.toString().toUpperCase())
+
+        // check the node is virtual
+        setUsage('virtual', hwInfo.virtual.Virtualization)
+        setUsage('hyper', hwInfo.virtual.Hypervisor)
+
+        // check ip list
+        if (hwInfo.ip) {
+            let getIpListDom = document.getElementById('ipList');
+            for (let i = 0; i < hwInfo.ip.length; i++) {
+                setUsage(`ip${i}`, hwInfo.ip[i]);
+            }
+        }
+
+        // check cpu
+        if (hwInfo.cpu) {
+            let getCpuListDom = document.getElementById('cpuList');
+            for (let i = 0; i < hwInfo.cpu.length; i++) {
+                setUsage(`cpu${i}`, hwInfo.cpu[i]);
+            }
+        }
+
+        // check memory
+        if (hwInfo.memory.size) {
+            let getMemListDom = document.getElementById('memSizeList');
+            for (let i = 0; i < hwInfo.memory.size.length; i++) {
+                let unit = (hwInfo.memory.size[i] / 1024)
+              //  let unit = niceBytes(hwInfo.memory.size[i] * 1048576) //1MB = 1048576
+                setUsage(`memsize${i}`, unit);
+            }
+        }
+
+        // check memory speed, available     
+        setUsage('memSpeed', hwInfo.memory.speed + " MT/s");
+        setUsage('memAvail', hwInfo.memory.os_cmd.available);
+
+        // check storage
+        setUsage('storage', hwInfo.storage.kind);
+        if (hwInfo.storage.size) {
+            let getStrListDom = document.getElementById('strSizeList');
+            for (let i = 0; i < hwInfo.storage.size.length; i++) {
+                setUsage(`strsize${i}`, hwInfo.storage.size[i]);
+            }
+            setUsage('raid', hwInfo.storage.raid);
+        }
+
+        // check UsageRatio     
+        setUsage('cpuRatio', Number.parseFloat(hwInfo.useRate.chkCpu).toFixed(2) + '%');
+        setUsage('memRatio', Number.parseFloat(hwInfo.useRate.chkRam).toFixed(2) + '%');
+        setUsage('diskRatio', Number.parseFloat(hwInfo.useRate.chkDisk).toFixed(2) + '%');
+
+        // check the result of 'df -h'
+        if (hwInfo.disk) {
+            let getDiskListDom = document.getElementById('dfList');
+            let fileSysArr = [];
+            let splitArr, newArr;
+            for (let i = 1; i < hwInfo.disk.length; i++) {
+                splitArr = hwInfo.disk[i].split(' ');
+                newArr = splitArr.filter(i => {
+                    return i.trim().length !== 0
+                })
+
+                setUsage(`fileSys${i}`, newArr[0]);
+                setUsage(`fileSize${i}`, newArr[1]);
+                setUsage(`fileUsed${i}`, newArr[2]);
+                setUsage(`fileAvail${i}`, newArr[3]);
+                setUsage(`fileUse${i}`, newArr[4]);
+                setUsage(`fileMount${i}`, newArr[5]);
+            }
+        }
+    }
+
+    function niceBytes(x) {
+
+        let l = 0, n = parseInt(x, 10) || 0;
+
+        while (n >= 1024 && ++l) {
+            n = n / 1024;
+        }
+
+        return (n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l]);
+    }
+
+</script>

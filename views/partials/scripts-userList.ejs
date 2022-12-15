@@ -1,0 +1,137 @@
+<script>
+    let dataObj = {};
+    let selectedNet = 'real';
+
+    $(document).ready(function () {
+
+        let $radios = $('input:radio[name=selectNet]');
+        if($radios.is(':checked') === false) {
+            $radios.filter('[value=real]').prop('checked', true);
+        }    
+
+        $("#fromDate").datepicker({
+            language: 'ko'
+        });         
+        $("#toDate").datepicker({
+            language: 'ko'
+        });
+
+        $("input[name='selectNet']:radio").change(function () {          
+            //console.log("selectedNet:" + this.value);
+            selectedNet = this.value
+        });
+
+        $("#searchBtn").click(function () {
+            if ( $('#fromDate').val() == '' ) {
+                toastr.warning('Please select From Date');         
+                $('#fromDate').focus();
+            }
+            else if ( $('#toDate').val() == '') {
+                toastr.warning('Please select To Date');             
+                $('#toDate').focus();
+            }
+            else {
+                dataObj = {};
+
+                dataObj.net = selectedNet;
+                dataObj.fromDate = $('#fromDate').val();
+                dataObj.toDate = $('#toDate').val();
+                dataObj.wName = $('#wName').val();
+
+                getUserList(dataObj);
+            }
+        });
+    });
+
+
+    /**
+     * rendering getUserList for user data
+     * @event getUserList
+     * @param
+     */
+    function getUserList(param) {
+
+        const table = $('#userListTable').DataTable({
+
+            ajax: {
+                url: `${TX_USER_LIST}`,
+                data: param,
+                dataSrc: 'result',
+                // success: function (data) {
+                // 		console.log("getLatestBlocks:" + JSON.stringify(data.result) + "\n");
+                // },
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                },
+            },
+            //id setting for td cell
+            "createdRow": function (row, data, index) {    //index = row								
+                // $('td', row).eq(0).attr('id', 'blk-' + index + '-blkNo');
+                // $('td', row).eq(0).attr('val', data.blk);
+                // $('td', row).eq(7).attr('title', data.bpNo);
+            },
+            //"data": data.result,
+
+            "columnDefs": [
+                // { targets: [0], className: 'dt-left cursorPointer' },
+                // { targets: [3], className: 'dt-left cursorPointer' },
+                // { targets: [2, 5, 6], className: 'dt-left' },
+                // { targets: [1, 4, 7], className: 'dt-left' },
+                // { targets: [8], visible: false },
+                // {
+                //     'bSortable': false,
+                //     'aTargets': [1]
+                // },
+                // {
+                //     "render": function (data, type, row) {
+                //         return "#" + data
+                //     },
+                //     "targets": 0
+                // }
+            ],
+            "columns": [
+                { "data": "no" },
+                { "data": "amount" },
+                { "data": "weight" },
+                { "data": "taker_fee" },
+                { "data": "i_amount" },
+                { "data": "t_amount" },
+                { "data": "t_cnt" },
+                { "data": "inout" },
+                { "data": "prev_amount" },
+                { "data": "txcount" },
+                { "data": "t_fee" },
+                { "data": "u_tm" },
+                { "data": "v_amount" },
+                { "data": "cma" },
+                { "data": "maker_fee" },
+                { "data": "c_tm" },
+                { "data": "addr" },
+                { "data": "usr_no" }
+            ],
+            "destroy": true,
+            "processing": false,
+            "serverSide": false,
+            "searching": false,
+            "ordering": false,
+            "retrieve": false,
+            "paging": true,
+            "info": true,
+            "stripeClasses": [],
+            "lengthChange": false,
+            //	"lengthMenu": [10, 20, 30, 40, 50],
+            //	"displayLength": 20,
+            "pageLength": 20,
+            "order": [[0, 'desc']]
+        });
+
+        //when Age header clicked, change it to opposit side  (Age <-> Time)
+        const selectedElements = $("#userTable tr").find("th:eq(1)");
+
+        //move to User Detail page
+        $('#userTable tbody').on('click', 'tr', function () {
+            const data = table.row(this).data();
+        });
+    };
+
+</script>

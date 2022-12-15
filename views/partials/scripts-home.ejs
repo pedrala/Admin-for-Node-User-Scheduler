@@ -1,0 +1,347 @@
+<script>
+    $(document).ready(function () {
+
+        //getBpList();
+        // getMain();
+    
+        // setInterval(() => {
+        //     getMain();
+        // }, 1000 * 4);
+    });
+
+    /**
+     * fetching data for landing page
+     *
+     * @event getMain
+     * @param {String} msg A description of...
+     */
+    function getMain() {
+        $.ajax({
+            type: "get",
+            url: `${URL}${HOME}`,
+            success: function (data) {
+                //console.log("getMain:" + JSON.stringify(data.result) + "\n");              
+
+                // display response data from API
+                dataTextView(data.result, data.blk, data.txns);
+
+                // animation               
+                executeAni(data.result);
+                // setInterval(executeAni, 10000);
+                // setTimeout(executeAni);   
+
+            },
+            error: function (request, status, error) {
+                console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            },
+        });
+    };
+
+    /**
+     * getting Bp list data
+     * @event getBpList
+     * @param {String} msg A description of...
+     */
+    // function getBpList() {
+    // 	$.ajax({
+    // 		type: "get",
+    // 		url: `${URL}${BP_LIST}`,
+    // 		success: function (d) {				
+
+    //             bpInfo = d.result.hubInfo;                       
+    //             //console.log("bpInfo:" + JSON.stringify(bpInfo) + "\n");		      
+
+    // 		},
+    // 		error: function (request, status, error) {
+    // 			//console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+    // 		},
+    // 	});
+    // };
+
+    /**
+     * loading main page data
+     * @event dataTextView
+     * @param {String} msg A description of...
+     */   
+    function dataTextView(data, blk, txns) {
+        //Latest Blocks       
+        //console.log("blk:"+JSON.stringify(blk));       
+        let blockArr = []
+        for (let i = 0; i < blk.length; i++) {
+            let ids = "blk-" + i + "-blkNo";
+            blockArr.push(
+                `<tr>
+                    <td id="${ids}" val="${blk[i].blk}"><a href="/block-details/${blk[i].blk}"><span class="hover-content">${'#' + blk[i].blk}</span></a></td>
+                    <td>${blk[i].age}</td>
+                    <td>${blk[i].txCnt}</td>
+                    <td>${blk[i].reward}</td>
+                    <td data-toggle="tooltip" data-placement="top" title="${blk[i].bpNo}">${blk[i].bp}</td>     
+                </tr>`
+            );
+        }
+
+      	//when Age header clicked, change it to opposit side  (Age <-> Time) 
+        const selectedElementsBlk = $("#block-config tr").find("th:eq(1)");
+        $(selectedElementsBlk).on('click', function () {
+            let strAge = document.querySelector("#latestBlocks > tr:nth-child(1) > td:nth-child(2)")
+            if (strAge.innerHTML.includes('ago')) {
+                $('#block-config tr').each(function (i) {
+                    $('#ageTimeBlk').html('Time');
+                    if (i > 0)//i=0 -> table header, i=1 => first line of table body
+                    {
+                        let time = blk[i - 1].time
+                        let bgt = getPullTime(Number(time)) || '';
+                        //	console.log("Time_bgt:" + bgt + "\n");		                    
+                        $("td:eq(1)", this).text(bgt);
+                    }
+                });
+            } else {
+                $('#block-config tr').each(function (i) {
+                    $('#ageTimeBlk').html('Age');
+                    if (i > 0) {
+                        let age = blk[i - 1].age
+                        let bgt = age.replace(/&nbsp;/g, '');
+                        //	console.log("Age_bgt:" + bgt + "\n");	  
+                        $("td:eq(1)", this).html(bgt);
+                    }
+                });
+            }
+        });
+
+        // Latest Txns          
+        //console.log("txns:"+JSON.stringify(txns));
+        let txnsArr = []
+        for (let i = 0; i < txns.length; i++) {
+            let from = '';
+            let to = '';
+            //let bpName = '';
+
+            //bpName = getBpName(txns[i].bp);
+
+            if (txns[i].fromAccHexa != '0') {
+                from = (txns[i].fromAccHexa).substring(0, 4) + '...' + (txns[i].fromAccHexa).substring(14, 16);
+                to = (txns[i].toAccHexa).substring(0, 4) + '...' + (txns[i].toAccHexa).substring(14, 16);
+            }
+            else {
+                from = '0000' + '...' + '00';
+                to = '0000' + '...' + '00';
+            }
+
+            let logoImg = '';
+            //if type is 'TRANSFER', token(security/utility) logo should be displayed 
+            if (txns[i].type == 'TRANSFER') {
+                logoImg = ' ' + `<img style="width:16px; height:16px; border: 0px"  src='${imgURL}:80/devnetAction/${txns[i].c_action}.svg' ></img>`
+            }
+            else {
+                //console.log("type:" + txns[i].type)
+                logoImg = ``;
+            }
+
+            if(txns[i].fromAccHexa != 0000000000000000)
+            {
+                if(txns[i].toAccHexa != 0000000000000000)
+                {
+                    txnsArr.push(
+                        `<tr>
+                            <td><a href="/trans-hash-details/${txns[i].hash}" data-title="${txns[i].hash}"><span class="hover-content">${txns[i].type}</span></td>         
+                            <td>${txns[i].age}</td>
+                            <td id="${"txns-" + i + "-fromAcc"}" val="${txns[i].fromAccHexa}"><a href="/account-details/${txns[i].fromAccDecimal}"><span class="hover-content">${from}</span></a></td>
+                            <td id="${"txns-" + i + "-toAcc"}" val="${txns[i].toAccHexa}"><a href="/account-details/${txns[i].toAccDecimal}"><span class="hover-content">${to}</span></a></td>
+                            <td id="${"txns-" + i + "-amount"}" >${txns[i].amount}${logoImg}</span></td>  
+                        </tr>`                                  
+                    );
+                }
+                else
+                {
+                    txnsArr.push(
+                        `<tr>
+                            <td><a href="/trans-hash-details/${txns[i].hash}" data-title="${txns[i].hash}"><span class="hover-content">${txns[i].type}</span></td>         
+                            <td>${txns[i].age}</td>
+                            <td id="${"txns-" + i + "-fromAcc"}" val="${txns[i].fromAccHexa}"><a href="/account-details/${txns[i].fromAccDecimal}"><span class="hover-content">${from}</span></a></td>
+                            <td id="${"txns-" + i + "-toAcc"}" val="${txns[i].toAccHexa}"><span class="hover-content">${to}</span></td>
+                            <td id="${"txns-" + i + "-amount"}" >${txns[i].amount}${logoImg}</span></td>  
+                        </tr>`                               
+                    );
+                }
+            }else 
+            {
+                if(txns[i].toAccHexa != 0000000000000000)
+                {
+                    txnsArr.push(
+                        `<tr>
+                            <td><a href="/trans-hash-details/${txns[i].hash}" data-title="${txns[i].hash}"><span class="hover-content">${txns[i].type}</span></td>         
+                            <td>${txns[i].age}</td>
+                            <td id="${"txns-" + i + "-fromAcc"}" val="${txns[i].fromAccHexa}"><span class="hover-content">${from}</span></td>
+                            <td id="${"txns-" + i + "-toAcc"}" val="${txns[i].toAccHexa}"><a href="/account-details/${txns[i].toAccDecimal}"><span class="hover-content">${to}</span></a></td>
+                            <td id="${"txns-" + i + "-amount"}" >${txns[i].amount}${logoImg}</span></td>  
+                        </tr>`                
+                    );
+                }else
+                {
+                    txnsArr.push(
+                        `<tr>
+                            <td><a href="/trans-hash-details/${txns[i].hash}" data-title="${txns[i].hash}"><span class="hover-content">${txns[i].type}</span></td>         
+                            <td>${txns[i].age}</td>
+                            <td id="${"txns-" + i + "-fromAcc"}" val="${txns[i].fromAccHexa}"><span class="hover-content">${from}</span></td>
+                            <td id="${"txns-" + i + "-toAcc"}" val="${txns[i].toAccHexa}"><span class="hover-content">${to}</span></td>
+                            <td id="${"txns-" + i + "-amount"}" >${txns[i].amount}${logoImg}</span></td>  
+                        </tr>`              
+                    );
+                }
+            }
+        }
+
+        //when Age header clicked, change it to opposit side  (Age <-> Time) 
+        const selectedElementsTx = $("#txns-config tr").find("th:eq(1)");
+        $(selectedElementsTx).on('click', function () {
+            let strAge = document.querySelector("#latestTxns > tr:nth-child(1) > td:nth-child(2)")
+            if (strAge.innerHTML.includes('ago')) {
+                $('#txns-config tr').each(function (i) {
+                    $('#ageTimeTx').html('Time');
+                    if (i > 0)//i=0 -> table header, i=1 => first line of table body
+                    {
+                        let time = txns[i - 1].time
+                        let bgt = getPullTime(Number(time)) || '';
+                        console.log("Time_bgt:" + bgt + "\n");		                    
+                        $("td:eq(1)", this).text(bgt);
+                    }
+                });
+            } else {
+                $('#txns-config tr').each(function (i) {
+                    $('#ageTimeTx').html('Age');
+                    if (i > 0) {
+                        let age = txns[i - 1].age
+                        let bgt = age.replace(/&nbsp;/g, '');
+                        console.log("Age_bgt:" + bgt + "\n");	  
+                        $("td:eq(1)", this).html(bgt);
+                    }
+                });
+            }              
+        });
+            
+        //move to Block page
+        $(goToBlk).on('click',function(){
+            window.location.href = URL + "/blocks";
+        });
+        //move to Txns page
+        $(goToTxns).on('click',function(){
+            window.location.href = URL + "/txns";
+        });
+
+        //Summary Data
+        $('#priceUsd').text(data.usd);
+        $('#totalVol').text(new Intl.NumberFormat().format(data.totalVolume));
+        $('#marketSupply').text(new Intl.NumberFormat().format(data.marketSupply));
+        $('#tradingVol').text(data.tradingVol);
+
+        //Total Data
+        $('#totUserAccounts').text(data.userAccounts);
+        $('#totTokenAccounts').text(data.tokenAccounts);
+        $('#userAccounts24h').text(data.userAccounts24h);
+        $('#tokenAccounts24h').text(data.tokenAccounts24h);
+
+        $('#totalBlk').text(data.totalBlk);
+        if((Math.floor(data.dailyBlk / 100000)) > 0)
+            $('#dailyBlkPlus').hide();  
+        $('#dailyBlk').text(data.dailyBlk);
+
+        $('#totTxns').text(data.totalTxns);
+        $('#dailyTxns').text(data.dailyTxns);
+
+        // Latest Txns            
+        //const latestTxns10Cnt = txns.slice(0,9)   
+        $('#latestBlocks').html(blockArr);
+        $('#latestTxns').html(txnsArr);
+       
+        blkIdBinding();
+        txnsIdBinding();
+    };
+
+    /**
+     * creating context menu(mouse right click) on latest Blocks table
+     * @event blkIdBinding
+     * @param {String} msg A description of...
+     */   
+    function blkIdBinding() {
+        for (let i = 0; i < 20; i++) {
+            if (document.getElementById("blk-" + i + "-blkNo") != null) {
+                // block default context menu
+                document.getElementById("blk-" + i + "-blkNo").addEventListener("contextmenu", function (e) { e.preventDefault(); });
+
+                //display custom context menu
+                $("#blk-" + i + "-blkNo").mousedown(function (ev) {
+                    //1. mouse left click 
+                    //2. mouse middle click  
+                    //3. mouse right click 
+                    if (ev.which == 3) {
+                        createContextMenu("#blk-" + i + "-blkNo");
+                    }
+                });
+            }
+        }
+    }
+
+    /**
+     * creating context menu(mouse right click) on latest Transactions table
+     * @event blkIdBinding
+     * @param {String} msg A description of...
+     */   
+    function txnsIdBinding() {
+        for (let i = 0; i < 20; i++) {
+            if (document.getElementById("txns-" + i + "-fromAcc") != null) {
+                // block default context menu           
+                document.getElementById("txns-" + i + "-fromAcc").addEventListener("contextmenu", function (e) { e.preventDefault(); });
+                document.getElementById("txns-" + i + "-toAcc").addEventListener("contextmenu", function (e) { e.preventDefault(); });
+
+                //display custom context menu
+                $("#txns-" + i + "-fromAcc").mousedown(function (ev) {                 
+                    if (ev.which == 3) {
+                        createContextMenu("#txns-" + i + "-fromAcc");
+                    }
+                });
+
+                $("#txns-" + i + "-toAcc").mousedown(function (ev) {                    
+                    if (ev.which == 3) {
+                        createContextMenu("#txns-" + i + "-toAcc");
+                    }
+                });
+            }
+        }
+    }
+
+	/**
+	 * executing Animation
+	 * @event executeAni
+	 * @param 
+	 */
+    function executeAni(data) {
+
+        // const obj1 = document.getElementById("priceUsd"); 
+        // const obj2 = document.getElementById("totalVol");
+        const obj3 = document.getElementById("tradingVol");
+        // const obj4 = document.getElementById("totUserAccounts");
+        //const obj5 = document.getElementById("userAccounts24h");
+        // const obj6 = document.getElementById("totTokenAccounts");
+        //const obj7 = document.getElementById("tokenAccounts24h");
+        const obj8 = document.getElementById("totalBlk");
+        const obj9 = document.getElementById("dailyBlk");
+        const obj10 = document.getElementById("totalTxns");
+        const obj11 = document.getElementById("dailyTxns");
+
+        //console.log("totalVol:" + JSON.stringify(obj2) + "\n");     
+
+        // animateValue(obj1, 1, 1, 2000);
+        // animateValue(obj2, data.totalVolume*0.999, data.totalVolume, 60000);
+        animateValue(obj3, data.tradingVol * 0.999, data.tradingVol, 2000);
+        // animateValue(obj4, data.totUserAccounts*0.999, data.totUserAccounts, 60000);               
+        // animateValue(obj5, data.userAccounts24h*0.999, data.userAccounts24h, 60000);
+        // animateValue(obj6, data.totTokenAccounts*0.999, data.totTokenAccounts, 60000);
+        //animateValue(obj7, data.tokenAccounts24h*0.999, data.tokenAccounts24h, 60000);
+        animateValue(obj8, data.totalBlk * 0.98, data.totalBlk, 2000);
+        animateValue(obj9, data.dailyBlk * 0.98, data.dailyBlk, 2000);
+        animateValue(obj10, data.totalTxns * 0.98, data.totalTxns, 2000);
+        animateValue(obj11, data.dailyTxns * 0.98, data.dailyTxns, 2000);
+    }
+
+
+</script>

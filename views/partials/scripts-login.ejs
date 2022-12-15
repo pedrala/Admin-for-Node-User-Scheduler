@@ -1,0 +1,23 @@
+<script>
+    $(document).ready(function () {
+        const type = '<%=type%>';
+        //1. Wrong UserId
+        //2. Wrong PassWord              
+        console.log("type:"+  type);
+
+        toastr.options = {
+            "debug": false,
+            "newestOnTop": false,
+            "positionClass": "toast-bottom-right",
+            "closeButton": true,
+            "progressBar": true
+        };     
+
+        if(type == 1)
+            toastr.warning('Wrong UserId!!!');
+        else if(type == 2)
+            toastr.warning('Wrong Password!!!');
+
+    });
+
+</script>

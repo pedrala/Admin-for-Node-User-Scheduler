@@ -1,0 +1,195 @@
+<!-- Main content-->
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="view-header">
+                <div class="pull-right text-right" style="line-height: 14px">
+                    <!-- <small>Table design<br>General<br> <span class="c-white">DataTables</span></small> -->
+                </div>
+                <div class="header-icon">
+                    <i class="pe page-header-icon pe-7s-albums"></i>
+                </div>
+                <div class="header-title">
+                    <h3>Node Total</h3>
+                    <small>
+                        All Node data for NFT
+                    </small>
+
+                    <div class="rdoBtn">
+                        <div class="form-check abc-radio abc-radio-danger form-check-inline">
+                            <input class="form-check-input" type="radio" id="mainnet" value="real" name="selectNet">
+                            <label class="form-check-label" for="mainnet"> FINL </label>
+                        </div>                           
+                        <div class="form-check abc-radio form-check-inline">
+                            <input class="form-check-input" type="radio" id="dev" value="test" name="selectNet">
+                            <label class="form-check-label" for="dev"> TEST </label>
+                        </div>
+                        <div class="form-check abc-radio form-check-inline">
+                            <input class="form-check-input" type="radio" id="virtual" value="vServer" name="selectNet">
+                            <label class="form-check-label" for="virtual"> VServer </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-filled">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
+                    <!-- <span>User No.: <input type="text" id="usrNo"></span>
+                    <span>Serial: <input type="text" id="serial"></span> -->
+                    <span>From: <input type="text" id="fromDate"></span>
+                    <span>To: <input type="text" id="toDate"></span>
+                    <span>Wallet Name: <input type="text" id="wName"></span>
+                    <span><button class="btn btn-w-md btn-primary btn-squared" type="button"
+                            id="searchBtn">Search</button></span>
+                </div>
+                <div class="panel-footer"></div>
+            </div>
+
+            <div class="panel panel-filled">
+                <!-- <div class="panel-heading">
+                    <div class="panel-tools">                       
+                    </div>                 
+                </div> -->
+                <div class="panel-body">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li><a class="nav-link active" data-toggle="tab" href="#tab-1" aria-expanded="true"> 
+                                Node List </a></li>
+                            <li><a class="nav-link" data-toggle="tab" href="#tab-2" aria-expanded="false">
+                                Node History </a></li>
+                            <li><a class="nav-link" data-toggle="tab" href="#tab-3" aria-expanded="false"> 
+                                Node Transaction In </a></li>
+                            <li><a class="nav-link" data-toggle="tab" href="#tab-4" aria-expanded="false">
+                                Node Transaction Out </a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">     
+                                    <table id="nodeListTable" class="table table-striped table-hover table-responsive-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>no</th>
+                                                <th>amount</th>
+                                                <th>weight</th>
+                                                <th>taker_fee</th>
+                                                <th>i_amount</th>
+                                                <th>t_amount</th>
+                                                <th>t_cnt</th>
+                                                <th>inout</th>
+                                                <th>prev_amount</th>
+                                                <th>txcount</th>
+                                                <th>t_fee</th>
+                                                <th>u_tm</th>
+                                                <th>v_amount</th>
+                                                <th>cma</th>
+                                                <th>maker_fee</th>
+                                                <th>c_tm</th>
+                                                <th>addr</th>
+                                                <th>usr_no</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="node">
+                
+                                        </tbody>                     
+                                    </table>                                                                       
+                                </div>
+                            </div>
+                            <div id="tab-2" class="tab-pane">
+                                <div class="panel-body">
+                                    <table id="nodeHistoryTable" class="table table-striped table-hover table-responsive-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>reward</th>
+                                                <th>u_tm</th>
+                                                <th>serial</th>
+                                                <th>price</th>
+                                                <th>startday</th>
+                                                <th>lastday</th>
+                                                <th>d_tm</th>
+                                                <th>c_tm</th>
+                                                <th>idx</th>
+                                                <th>maxp</th>                               
+                                            </tr>
+                                        </thead>
+                                        <tbody id="nodeHistory">
+                
+                                        </tbody>                     
+                                    </table>                                 
+                                </div>
+                            </div>
+                            <div id="tab-3" class="tab-pane">
+                                <div class="panel-body">
+                                    <table id="nodeTrxInTable" class="table table-striped table-hover table-responsive-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>no</th>
+                                                <th>amount</th>
+                                                <th>txid</th>
+                                                <th>from</th>
+                                                <th>c_tm</th>
+                                                <th>to</th>
+                                                <th>confirm_num</th>
+                                                <th>usr_no</th>                            
+                                            </tr>
+                                        </thead>
+                                        <tbody id="nodeTrxIn">
+                
+                                        </tbody>                     
+                                    </table>
+                                 
+                                </div>
+                            </div>
+                            <div id="tab-4" class="tab-pane">
+                                <div class="panel-body">
+                                    <table id="nodeTrxOutTable" class="table table-striped table-hover table-responsive-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>no</th>
+                                                <th>amount</th>
+                                                <th>approval</th>
+                                                <th>fee</th>
+                                                <th>txid</th>
+                                                <th>confirm_num</th>
+                                                <th>done</th>
+                                                <th>external</th>
+                                                <th>d_tm</th>
+                                                <th>from</th>
+                                                <th>c_tm</th>
+                                                <th>to</th>
+                                                <th>usr_no</th>                              
+                                            </tr>
+                                        </thead>
+                                        <tbody id="nodeTrxOut">
+                
+                                        </tbody>                     
+                                    </table>
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- End main content-->
+
+<style>
+    .rdoBtn {
+        display: flex;
+        justify-content: flex-end;
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+</style>

@@ -1,0 +1,137 @@
+<script>
+    let dataObj = {};
+    let selectedNet = 'real';
+
+    $(document).ready(function () {
+        let $radios = $('input:radio[name=selectNet]');
+        if($radios.is(':checked') === false) {
+            $radios.filter('[value=real]').prop('checked', true);
+        }    
+
+        $("#fromDate").datepicker({
+            language: 'ko'
+        });
+        $("#toDate").datepicker({
+            language: 'ko'
+        });
+
+        $("input[name='selectNet']:radio").change(function () {          
+            //console.log("selectedNet:" + this.value);
+            selectedNet = this.value
+        });
+
+        $("#searchBtn").click(function () {
+            
+            if ($('#fromDate').val() == '') {
+                toastr.warning('Please select From Date');
+                $('#fromDate').focus();
+            }
+            else if ( $('#toDate').val() == '') {
+                toastr.warning('Please select To Date');
+                $('#toDate').focus();
+            }           
+            else {            
+                dataObj = {};
+
+                dataObj.net = selectedNet;       
+                dataObj.fromDate = $('#fromDate').val();
+                dataObj.toDate = $('#toDate').val();
+                dataObj.wName = $('#wName').val();
+
+                getUserBuyHistory(dataObj);
+            }
+        });
+    });
+
+
+    /**
+     * rendering datatable for block data
+     * @event getLatestBlocks
+     * @param
+     */
+    function getUserBuyHistory(param) {
+        
+        const table = $('#userBuyHistoryTable').DataTable({
+
+            ajax: {
+                url: `${TX_USER_BUYHIST_LIST}`,
+                data: param,
+                dataSrc: 'result',
+                // success: function (data) {
+                // 		console.log("getLatestBlocks:" + JSON.stringify(data.result) + "\n");
+                // },
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                },
+            },
+            //id setting for td cell
+            "createdRow": function (row, data, index) {    //index = row								
+                // $('td', row).eq(0).attr('id', 'blk-' + index + '-blkNo');
+                // $('td', row).eq(0).attr('val', data.blk);
+                // $('td', row).eq(7).attr('title', data.bpNo);
+            },
+            //"data": data.result,
+
+            "columnDefs": [
+                // { targets: [0], className: 'dt-left cursorPointer' },
+                // { targets: [3], className: 'dt-left cursorPointer' },
+                // { targets: [2, 5, 6], className: 'dt-left' },
+                // { targets: [1, 4, 7], className: 'dt-left' },
+                // { targets: [3], visible: true },
+                // {
+                //     'bSortable': true,
+                //     'aTargets': [3]
+                // },
+                // {
+                //     "render": function (data, type, row) {
+                //         return "#" + data
+                //     },
+                //     "targets": 0
+                // }
+            ],           
+           
+            "columns": [    
+                { "data": "reward" },
+                { "data": "naddr" },
+                { "data": "startday" },
+                { "data": "nftid" },
+                { "data": "tid" },
+                { "data": "wid" },
+                { "data": "u_tm" },
+                { "data": "price" },
+                { "data": "lastday" },
+                { "data": "d_tm" },
+                { "data": "c_tm" },
+                { "data": "idx" },
+                { "data": "nidx" },
+                { "data": "addr" },
+                { "data": "hash" },
+                { "data": "status" },
+                { "data": "maxp" }             
+            ],
+            "destroy": true,
+            "processing": false,
+            "serverSide": false,
+            "searching": false,
+            "ordering": false,
+            "retrieve": false,
+            "paging": true,
+            "info": true,
+            "stripeClasses": [],
+            "lengthChange": false,
+            //	"lengthMenu": [10, 20, 30, 40, 50],
+            //	"displayLength": 20,
+            "pageLength": 20,
+            "order": [[0, 'desc'], [3, 'desc'], [7, 'desc']]
+        });
+
+        //when Age header clicked, change it to opposit side  (Age <-> Time)
+        const selectedElements = $("#userBuyHistoryTable tr").find("th:eq(1)");
+
+        //move to User Detail page
+        $('#userBuyHistoryTable tbody').on('click', 'tr', function () {
+            const data = table.row(this).data();
+        });
+    };
+
+</script>

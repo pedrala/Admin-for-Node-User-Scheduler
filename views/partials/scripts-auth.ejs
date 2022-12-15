@@ -1,0 +1,132 @@
+<link rel="stylesheet" href="/public/vendor/switchery/switchery.min.css"/>
+<script src="/public/vendor/switchery/switchery.min.js"></script>
+<script>
+    let dataObj = {};
+
+    $(document).ready(function () {  
+
+        // Native javascript
+        let elem1 = document.querySelector('.js-switch1');
+         elem1 = new Switchery(elem1);
+
+        let elem3 = document.querySelector('.js-switch3');
+         elem3 = new Switchery(elem3, { color: '#7c8bc7'});
+
+        let elem4 = document.querySelector('.js-switch4');
+         elem4 = new Switchery(elem4, { color: '#f6a821'});
+
+        let elem5 = document.querySelector('.js-switch5');
+         elem5 = new Switchery(elem5, { color: '#1bbf89'});
+
+        let elem6 = document.querySelector('.js-switch6');
+         elem6 = new Switchery(elem6, { color: '#db524b'});
+
+         elem1.addEventListener('click', function() {
+            alert(elem1.checked);
+        });
+
+        // elem1.onchange = function() {debugger
+        //     alert(elem1.checked);
+        // };
+
+        // elem3.onchange = function() {
+        //     alert(elem3.checked);
+        // };
+
+        // elem4.onchange = function() {
+        //     alert(elem4.checked);
+        // };
+
+        // elem5.onchange = function() {
+        //     alert(elem5.checked);
+        // };
+
+        // elem6.onchange = function() {
+        //     alert(elem6.checked);
+        // };  
+
+      //  getAuthList(dataObj);            
+       
+    });
+
+    /**
+     * rendering datatable for node data
+     * @event getAuthList
+     * @param
+     */
+    function getAuthList(param) {
+
+        const table = $('#auth').DataTable({
+
+            ajax: {
+                url: `${TX_AUTH_LIST}`,
+                data: param,
+                dataSrc: 'result',
+                // success: function (data) {
+                // 	console.log("getAuthList:" + JSON.stringify(data.result) + "\n");
+                // },
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                },
+            },
+            //id setting for td cell
+            "createdRow": function (row, data, index) {    //index = row								
+                // $('td', row).eq(0).attr('id', 'blk-' + index + '-blkNo');
+                // $('td', row).eq(0).attr('val', data.blk);
+                // $('td', row).eq(7).attr('title', data.bpNo);
+            },
+            //"data": data.result,
+
+            "columnDefs": [
+                // { targets: [0], className: 'dt-left cursorPointer' },
+                { targets: [3], className: 'dt-left cursorPointer' },
+                // { targets: [2, 5, 6], className: 'dt-left' },    
+                // { targets: [8], visible: false },
+                // {
+                //     'bSortable': false,
+                //     'aTargets': [1]
+                // },
+                // {
+                //     "render": function (data, type, row) {                       
+                //         return 
+                //          <div class="m-xs">
+                //                 <input type="checkbox" class="js-switch1" checked />
+                //         </div>
+                //     },
+                //     "targets": 3
+                // }
+            ],
+            "columns": [
+                { "data": "no" },
+                { "data": "id" },
+                { "data": "userName" },
+                { "data": "auth" },
+                { "data": "createdDate" },
+                { "data": "updateDate" }      
+            ],
+            "destroy": true,
+            "processing": false,
+            "serverSide": false,
+            "searching": false,
+            "ordering": false,
+            "retrieve": false,
+            "paging": true,
+            "info": true,
+            "stripeClasses": [],
+            "lengthChange": false,
+            //	"lengthMenu": [10, 20, 30, 40, 50],
+            //	"displayLength": 20,
+            "pageLength": 20,
+            "order": [[0, 'desc']]
+        });
+
+        //when Age header clicked, change it to opposit side  (Age <-> Time)
+        const selectedElements = $("#auth tr").find("th:eq(1)");
+
+        //move to User Detail page
+        $('#auth tbody').on('click', 'tr', function () {
+            const data = table.row(this).data();
+        });
+    };
+
+</script>

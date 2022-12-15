@@ -1,0 +1,57 @@
+<!-- Main content-->
+<!-- <div class="back-link">
+    <a href="index.html" class="btn btn-accent">Back to Dashboard</a>
+</div> -->
+
+<div class="container-center animated slideInDown">
+
+    <div class="view-header">
+        <div class="header-icon">
+            <i class="pe page-header-icon pe-7s-unlock"></i>
+        </div>
+        <div class="header-title">
+            <h3>Login</h3>
+            <small>
+                Please enter your credentials to login.
+            </small>
+        </div>
+    </div>
+
+    <div class="panel panel-filled">
+        <div class="panel-body">
+            <form action="/login" id="loginForm" novalidate>
+                <div class="form-group">
+                    <label class="col-form-label" for="username">Username</label>
+                    <input type="text" placeholder="example@gmail.com" title="Please enter you username" required=""
+                        value="" name="userId" id="userId" class="form-control">
+                    <span class="form-text small">Your unique username to app</span>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" for="password">Password</label>
+                    <input type="password" title="Please enter your password" placeholder="******" required="" value=""
+                        name="passWord" id="passWord" class="form-control">
+                    <span class="form-text small">Your strong password</span>
+                </div>
+                <div>
+                    <!-- <a href="/home">Login</a> -->
+                    <button class="btn btn-accent">Login</button>
+                    <!-- <span style="margin-left:10px">ID:hackers , PW:1234</span> -->
+                    <!-- <a class="btn btn-default" href="register.html">Register</a> -->
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<!-- End main content-->
+<style>
+    .content {
+        margin-top: 60px;
+        margin: 0px 200px;
+        position: relative;
+        padding: 30px;
+        transition: margin-left 0.3s ease-out;
+        -webkit-transition: margin-left 0.3s ease-out;
+    }
+</style>
